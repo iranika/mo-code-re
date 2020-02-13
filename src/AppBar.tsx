@@ -3,7 +3,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+//import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -36,29 +36,23 @@ const options = [
 ];
 
 export default function ButtonAppBar() {
-  const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const open = Boolean(anchorEl);
   const title = "みちくさびゅあー"
-  const [anchorE2, setAnchorE2] = React.useState<null | HTMLElement>(null);
+  const classes = useStyles();
+  const [titleMenuAncor, setTitleMenuAncor] = React.useState<null | HTMLElement>(null);
+  const [langMenuAncor, setLangMenuAncor] = React.useState<null | HTMLElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
 
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
   const handleClose = () => {
-    setAnchorEl(null);
+    //TODO: 引数で選択できるようにする(優先度低)
+    setTitleMenuAncor(null);
+    setLangMenuAncor(null);
   };
-  const handleClickListItem = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorE2(event.currentTarget);
+  const handleClickAncor = (event: React.MouseEvent<HTMLElement>, setAncor: React.Dispatch<React.SetStateAction<HTMLElement | null>>) => {
+      setAncor(event.currentTarget);
   };
-
-  const handleMenuItemClick = (event: React.MouseEvent<HTMLElement>, index: number) => {
+  const handleLangMenuItemClick = (event: React.MouseEvent<HTMLElement>, index: number) => {
     setSelectedIndex(index);
-    setAnchorE2(null);
-  };
-  const handleClose2 = () => {
-    setAnchorE2(null);
+    setLangMenuAncor(null);
   };
   return (
     <div className={classes.root}>
@@ -73,14 +67,14 @@ export default function ButtonAppBar() {
               aria-haspopup="true"
               aria-controls="lock-menu"
               aria-label="LANG"
-              onClick={handleClickListItem}
+              onClick={ (e)=>{ handleClickAncor(e,setLangMenuAncor) }}
             >
               <ListItemText primary={options[selectedIndex]} />
             </ListItem>
           </List>
           <Menu
             id="lock-menu"
-            anchorEl={anchorE2}
+            anchorEl={langMenuAncor}
             anchorOrigin={{
               vertical: 'top',
               horizontal: 'right',
@@ -90,27 +84,31 @@ export default function ButtonAppBar() {
               vertical: 'top',
               horizontal: 'right',
             }}
-            open={Boolean(anchorE2)}
-            onClose={handleClose2}
+            open={Boolean(langMenuAncor)}
+            onClose={handleClose}
           >
             {options.map((option, index) => (
               <MenuItem
                 key={option}
                 disabled={index === selectedIndex}
                 selected={index === selectedIndex}
-                onClick={event => handleMenuItemClick(event, index)}
+                onClick={event => handleLangMenuItemClick(event, index)}
               >
                 {option}
               </MenuItem>
             ))}
           </Menu>
           
-
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu" onClick={handleMenu}>
+          <IconButton　edge="start"
+            className={classes.menuButton}
+            color="inherit"
+            aria-label="menu"
+            onClick={(e)=>{handleClickAncor(e, setTitleMenuAncor)}}
+          >
             <MenuIcon />
           </IconButton>
           <Menu　id="menu-appbar"
-            anchorEl={anchorEl}
+            anchorEl={titleMenuAncor}
             anchorOrigin={{
               vertical: 'top',
               horizontal: 'right',
@@ -120,8 +118,9 @@ export default function ButtonAppBar() {
               vertical: 'top',
               horizontal: 'right',
             }}
-            open={open}
-            onClose={handleClose}>
+            open={Boolean(titleMenuAncor)}
+            onClose={handleClose}
+          >
             {koma4.map((item, index) => {
               return <MenuItem>{index+1}.{item.Title}</MenuItem>;         
             })}
