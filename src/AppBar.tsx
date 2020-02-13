@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
+import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import koma4 from './data/koma4.json';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -38,7 +39,7 @@ export default function ButtonAppBar() {
   };
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
             {title}
@@ -59,7 +60,6 @@ export default function ButtonAppBar() {
             }}
             open={open}
             onClose={handleClose}>
-            
             {koma4.map((item, index) => {
               return <MenuItem>{index+1}.{item.Title}</MenuItem>;         
             })}
