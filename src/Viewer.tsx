@@ -20,10 +20,12 @@ export default class ViewerContents extends Component {
       <div>
         {this.state.showlist.map((index) => {
           return koma4[index].ImagesUrl.map(url =>{
-            return <img src={url} alt={koma4[index].Title}></img>
+            return <img src={url} alt={koma4[index].Title} style={{width:'100%'}}></img>
           })
         })}
-        <input type="button" onClick={this.handleAddShowList} value="続きを表示"/>
+        <div style={{textAlign:'center'}}>
+          <input type="button" onClick={this.handleAddShowList} value="続きを表示"/>
+        </div>
       </div>
     );
   }
