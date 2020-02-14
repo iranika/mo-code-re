@@ -13,7 +13,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import koma4 from './data/koma4.json';
-import AppContext from './App'
+import App,{AppContext} from './App'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -45,7 +45,8 @@ export default function ButtonAppBar() {
   const [titleMenuAncor, setTitleMenuAncor] = React.useState<null | HTMLElement>(null);
   const [langMenuAncor, setLangMenuAncor] = React.useState<null | HTMLElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const value = React.useContext(AppContext)
+  const lang = React.useContext(AppContext)
+  console.log(lang)
   const handleClose = () => {
     //TODO: 引数で選択できるようにする(優先度低)
     setTitleMenuAncor(null);

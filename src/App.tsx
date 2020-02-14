@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+import ReactDOM from 'react-dom';
 import logo from './logo.svg';
 import './App.css';
 import AppBar from './AppBar'
@@ -11,7 +12,7 @@ interface ViewerContext {
 const defaultAppContext: ViewerContext = {
   lang: "ja",
 }
-export const AppContext = React.createContext(defaultAppContext);
+export const AppContext = React.createContext({});
 //TODO: context情報をlocalstorageに記憶させる
 //const appKey = "MichikusaViewer"
 //const appData = localStorage.getItem(appKey)
@@ -21,7 +22,7 @@ export default class App extends React.Component {
   render(){
     return (
       <div className="App">
-        <AppContext.Provider value={{lang: 'ja'}}>
+        <AppContext.Provider value={defaultAppContext}>
           <AppBar />
           <Viewer />
         </AppContext.Provider>
