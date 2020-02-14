@@ -13,7 +13,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import koma4 from './data/koma4.json';
-import App,{AppContext} from './App'
+import {AppContext} from './App'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -38,6 +38,9 @@ const options = [
   'English',
   'Chinese',
 ];
+const MangaList = koma4.map((item, index) =>
+  <MenuItem>{index+1}.{item.Title}</MenuItem>
+);
 
 export default function ButtonAppBar() {
   const title = "みちくさびゅあー"
@@ -59,6 +62,7 @@ export default function ButtonAppBar() {
     setSelectedIndex(index);
     setLangMenuAncor(null);
   };
+
   return (
     <div className={classes.root}>
       <AppBar position="fixed" className={classes.appbar}>
@@ -126,9 +130,7 @@ export default function ButtonAppBar() {
             open={Boolean(titleMenuAncor)}
             onClose={handleClose}
           >
-            {koma4.map((item, index) => {
-              return <MenuItem>{index+1}.{item.Title}</MenuItem>;         
-            })}
+            {MangaList}
           </Menu>
         </Toolbar>
       </AppBar>
