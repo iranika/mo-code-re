@@ -7,9 +7,9 @@ import koma4 from './data/koma4.json'
 import Viewer from './Viewer'
 import * as serviceWorker from './serviceWorker';
 
-//ReactDOM.render(<App />, document.getElementById('root'));
-ReactDOM.render(<Viewer />, document.getElementById('root'));
-ReactDOM.render(<AppBar />, document.getElementById('appbar'));
+ReactDOM.render(<App />, document.getElementById('root'));
+//ReactDOM.render(<Viewer />, document.getElementById('root'));
+//ReactDOM.render(<AppBar />, document.getElementById('appbar'));
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA

@@ -1,26 +1,46 @@
-import React from 'react';
+import React,{Component} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import AppBar from './AppBar'
+import Viewer from './Viewer'
+import ViewerContents from './Viewer';
 
-const App = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+interface ViewerContext {
+  lang: string,
+}
+const defaultAppContext: ViewerContext = {
+  lang: "ja",
+}
+export const AppContext = React.createContext(defaultAppContext);
+//TODO: context情報をlocalstorageに記憶させる
+//const appKey = "MichikusaViewer"
+//const appData = localStorage.getItem(appKey)
+//const initialState = appData ? JSON.parse(appData) : defaultAppContext
+
+export default class App extends React.Component {
+  render(){
+    return (
+      <div className="App">
+        <AppContext.Provider value={{lang: 'ja'}}>
+          <AppBar />
+          <Viewer />
+        </AppContext.Provider>
+      </div>
+    );
+  }
 }
 
-export default App;
+/*
+export default class App extends React.Component {
+  render(){
+    return (
+      <div className="App">
+        <AppContext.Provider value={this.lang}>
+          <AppBar />
+          <Viewer />
+        </AppContext.Provider>
+      </div>
+    );
+  }
+}
+*/
