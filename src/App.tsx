@@ -5,6 +5,7 @@ import './App.css';
 import AppBar from './AppBar'
 import Viewer from './Viewer'
 import ViewerContents from './Viewer';
+import Footer from './Footer';
 
 interface ViewerContext {
   lang: string,
@@ -25,6 +26,7 @@ export default class App extends React.Component {
         <AppContext.Provider value={defaultAppContext}>
           <AppBar />
           <Viewer />
+          <Footer />
         </AppContext.Provider>
       </div>
     );
