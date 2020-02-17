@@ -1,5 +1,7 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import koma4 from './data/koma4.json';
+import {AppContext} from './App'
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -13,9 +15,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import Divider from '@material-ui/core/Divider';
 
-import koma4 from './data/koma4.json';
-import {AppContext} from './App'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -43,7 +44,7 @@ const options = [
 ];
 const MangaList = koma4.map((item, index) =>
   //TODO: アイテムがクリックされたときの実装して
-  <ListItem>{index+1}.{item.Title}</ListItem>
+  <ListItem button >{index+1}.{item.Title}</ListItem>
 );
 
 //TODO: 肥大化しやすいのでどこかのタイミングで分割、リファクタリングする。
@@ -68,7 +69,7 @@ export default function ButtonAppBar() {
     setLangMenuAncor(null);
   };
 
-  //タイトルリストバーの処理
+  //タイトルサイドバーの処理
   const [titleSidebarAncor, settitleSidebarAncor] = React.useState({
     right: false,
   });
@@ -131,11 +132,12 @@ export default function ButtonAppBar() {
               </MenuItem>
             ))}
           </Menu>
-          
+        
+
           <IconButton　edge="start"
             className={classes.menuButton}
             color="inherit"
-            aria-label="menu"
+            aria-label="title-list"
             onClick={toggleDrawer('right', true)}
           >
             <MenuIcon />
@@ -147,6 +149,8 @@ export default function ButtonAppBar() {
             onOpen={toggleDrawer('right', true)}
           >
             <List>
+              <ListItem>タイトル一覧</ListItem>
+              <Divider />
               {MangaList}
             </List>
             </SwipeableDrawer>
