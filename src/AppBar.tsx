@@ -12,6 +12,8 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import useScrollTrigger from '@material-ui/core/useScrollTrigger';
+import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+
 import koma4 from './data/koma4.json';
 import {AppContext} from './App'
 
@@ -40,20 +42,22 @@ const options = [
   'Chinese',
 ];
 const MangaList = koma4.map((item, index) =>
-  <MenuItem>{index+1}.{item.Title}</MenuItem>
+  //TODO: アイテムがクリックされたときの実装して
+  <ListItem>{index+1}.{item.Title}</ListItem>
 );
 
+//TODO: 肥大化しやすいのでどこかのタイミングで分割、リファクタリングする。
 export default function ButtonAppBar() {
   const title = "みちくさびゅあー"
   const classes = useStyles();
-  const [titleMenuAncor, setTitleMenuAncor] = React.useState<null | HTMLElement>(null);
   const [langMenuAncor, setLangMenuAncor] = React.useState<null | HTMLElement>(null);
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const lang = React.useContext(AppContext)
-  console.log(lang)
+  //console.log(lang)
+
+  //言語メニューの処理
   const handleClose = () => {
     //TODO: 引数で選択できるようにする(優先度低)
-    setTitleMenuAncor(null);
     setLangMenuAncor(null);
   };
   const handleClickAncor = (event: React.MouseEvent<HTMLElement>, setAncor: React.Dispatch<React.SetStateAction<HTMLElement | null>>) => {
@@ -62,6 +66,25 @@ export default function ButtonAppBar() {
   const handleLangMenuItemClick = (event: React.MouseEvent<HTMLElement>, index: number) => {
     setSelectedIndex(index);
     setLangMenuAncor(null);
+  };
+
+  //タイトルリストバーの処理
+  const [titleSidebarAncor, settitleSidebarAncor] = React.useState({
+    right: false,
+  });
+  type DrawerSide = 'top' | 'left' | 'bottom' | 'right';
+  const toggleDrawer = (side: DrawerSide, open: boolean) => (
+    event: React.KeyboardEvent | React.MouseEvent,
+  ) => {
+    if (
+      event &&
+      event.type === 'keydown' &&
+      ((event as React.KeyboardEvent).key === 'Tab' ||
+        (event as React.KeyboardEvent).key === 'Shift')
+    ) {
+      return;
+    }
+    settitleSidebarAncor({ ...titleSidebarAncor, [side]: open });
   };
 
   return (
@@ -113,26 +136,20 @@ export default function ButtonAppBar() {
             className={classes.menuButton}
             color="inherit"
             aria-label="menu"
-            onClick={(e)=>{handleClickAncor(e, setTitleMenuAncor)}}
+            onClick={toggleDrawer('right', true)}
           >
             <MenuIcon />
           </IconButton>
-          <Menu　id="menu-appbar"
-            anchorEl={titleMenuAncor}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            open={Boolean(titleMenuAncor)}
-            onClose={handleClose}
+          <SwipeableDrawer
+            anchor="right"
+            open={titleSidebarAncor.right}
+            onClose={toggleDrawer('right', false)}
+            onOpen={toggleDrawer('right', true)}
           >
-            {MangaList}
-          </Menu>
+            <List>
+              {MangaList}
+            </List>
+            </SwipeableDrawer>
         </Toolbar>
       </AppBar>
       <Toolbar />
